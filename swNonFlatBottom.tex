@@ -1,0 +1,47 @@
+\section{Shallow Water with Non-Horizontal Bottom}
+We now return to the shallow water model from Homework 2. However, this time we study a modified version of the problem, namely a model with a non-horizontal bottom “bathymetry” $B(x)$. This is represented in the following model 
+$$\begin{pmatrix}
+h_t \\ hu_t
+\end{pmatrix}+\begin{pmatrix}
+h_x u+hu_x \\ huu_x + gh(h_x+B_x)
+\end{pmatrix} = 0 $$
+\subsection{Still Water Implies Horizontal Water Level}
+From the diagram, we know that the water level, lets call it $w(x,t)$, is $h(x,t) + B(x)$. We wish to show that for still water,i.e. $u=0$, we the water level is horizontal, i.e. $w_x=0$. We know that $u=0 \implies u_x = u_t= 0$, so we simply plug these values into our model to obtain
+$$\begin{pmatrix}
+h_t \\ 0
+\end{pmatrix}+\begin{pmatrix}
+0+0 \\ 0 + gh(h_x+B_x)
+\end{pmatrix} = 0 $$
+We have that $h_t=0$, which in combination with the fact that $B$ is a function of only $x$, gives us that $w_t=h_t+B_t= 0$. Thus we know that the water level does not change with time. Now the second line of the system gives us that $gh(h_x+B_x)=0\implies h_x = -B_x$. This immediately gives us that $w_x=h_x+B_x=-B_x+b_x=0$. Therefore with still water, we have a constant, horizontal water level.  
+\subsection{Conservation Form}
+We now wish to write our equation in conservation form as 
+$$\begin{pmatrix}
+h\\m	
+\end{pmatrix}_t + \begin{pmatrix}
+m\\ f_2(h,m)
+\end{pmatrix}_x = \begin{pmatrix}
+0\\s(h,m,x)
+\end{pmatrix}$$
+where $m=hu$ and $s$ is independent of the derivatives of h and m. We now set the equations equal to eachother and solve for $f_2$ and $s$
+\begin{align*}
+hu_t+huu_x + gh(h_x+B_x)&=m_t+(f_2(h,m))_x - s(h,m,x) \\
+hu_t+huu_x + gh(h_x+B_x)&=h_tu+hu_t+(f_2(h,m))_x - s(h,m,x) \\
+-h_tu+huu_x + gh(h_x+B_x)&=(f_2(h,m))_x - s(h,m,x)
+\end{align*}
+Now, using what we know from the first equation in the system, we get
+\begin{align*}
+h_tu+huu_x + gh(h_x+B_x)&=(f_2(h,m))_x - s(h,m,x) \\
+(h_x u+hu_x)u+huu_x + gh(h_x+B_x)&=(f_2(h,m))_x - s(h,m,x) \\
+h_x u^2+2huu_x + ghh_x+ghB_x &=(f_2(h,m))_x - s(h,m,x) \\
+\end{align*}
+From this it is obvious that
+$$f_2(h,m)=h u^2 + \frac{gh^2}{2}$$ and
+$$s(h,m,x)=-ghB_x(x)$$
+Thus our conservation form is 
+$$\begin{pmatrix}
+h\\m	
+\end{pmatrix}_t + \begin{pmatrix}
+m\\ h u^2 + \frac{gh^2}{2}
+\end{pmatrix}_x = \begin{pmatrix}
+0\\-ghB_x(x)
+\end{pmatrix}$$
