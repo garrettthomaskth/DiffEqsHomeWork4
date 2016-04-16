@@ -1,0 +1,15 @@
+\section{First Order Roe Scheme with Flat Bottom}
+\subsection{Algorithm}
+We first implement the first order Roe scheme to simulate the shallow water equations for a flat bottom. The algorithm is works as follows. We have our equation set up as a conservation law i.e.,
+$$q_t+f(q)_x=0$$
+so we need a method in conservation form, i.e.
+$$Q_i^{n+1} = Q_i^n - \frac{\Delta t}{\Delta x}(F^n_{i+1/2}-F^n_{i-1/2})$$ 
+We use the following numerical flux formula
+$$F_{i+1/2}=\frac{1}{2}(f(Q_i^n)+f(Q_{i+1}^n))-\frac{1}{2}\sum_{p=1}^2 \lvert \hat{\lambda}_{j+1/2}^p \rvert W_{j+1/2}^p$$
+From the previous section, we have 
+$$f(q) = \begin{pmatrix}
+q_2\\ \frac{q_2^2}{q_1} + \frac{gq_1^2}{2}
+\end{pmatrix}$$
+From the course text book we have $\hat{\lambda}^1_{j+1/2} = \hat{u}-\hat{c}$ and $\hat{\lambda}^2_{j+1/2} = \hat{u}+\hat{c}$ where $\hat{c}=\sqrt{0.5g(h_{i-2}+h_i)}$,
+$$\hat{u}=\frac{\sqrt{h_{i-1}}u_{i-1}+\sqrt{h_i}u_i}{\sqrt{h_{i-1}}+\sqrt{h_i}}$$ 
+and $W^1_{i-1/2}=\frac{(\hat{u}+\hat{c})(q_i^1-q_{i-1}^1) - q_i^2+q_{i-1}^2}{2\hat{c}}$ and $W^2_{i-1/2}=\frac{-(\hat{u}+\hat{c})(q_i^1-q_{i-1}^1) + q_i^2-q_{i-1}^2}{2\hat{c}}$.
