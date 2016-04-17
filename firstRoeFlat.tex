@@ -10,6 +10,10 @@ From the previous section, we have
 $$f(q) = \begin{pmatrix}
 q_2\\ \frac{q_2^2}{q_1} + \frac{gq_1^2}{2}
 \end{pmatrix}$$
-From the course text book we have $\hat{\lambda}^1_{j+1/2} = \hat{u}-\hat{c}$ and $\hat{\lambda}^2_{j+1/2} = \hat{u}+\hat{c}$ where $\hat{c}=\sqrt{0.5g(h_{i-2}+h_i)}$,
+From the course text book we have $\hat{\lambda}^1_{j+1/2} = \hat{u}-\hat{c}$ and $\hat{\lambda}^2_{j+1/2} = \hat{u}+\hat{c}$ where $\hat{c}=\sqrt{0.5g(h_{i-1}+h_i)}$,
 $$\hat{u}=\frac{\sqrt{h_{i-1}}u_{i-1}+\sqrt{h_i}u_i}{\sqrt{h_{i-1}}+\sqrt{h_i}}$$ 
-and $W^1_{i-1/2}=\frac{(\hat{u}+\hat{c})(q_i^1-q_{i-1}^1) - q_i^2+q_{i-1}^2}{2\hat{c}}$ and $W^2_{i-1/2}=\frac{-(\hat{u}+\hat{c})(q_i^1-q_{i-1}^1) + q_i^2-q_{i-1}^2}{2\hat{c}}$.
+and letting $\delta = Q_i - Q_{i-1}$ we get $W^1_{i-1/2}=\frac{(\hat{u}+\hat{c})\delta^1 - \delta^2}{2\hat{c}}\begin{pmatrix}
+1\\ \hat{u} - \hat{c}
+\end{pmatrix}$ and $W^2_{i-1/2}=\frac{-(\hat{u}-\hat{c})\delta^1 + \delta^2}{2\hat{c}}\begin{pmatrix}
+1\\ \hat{u} + \hat{c}
+\end{pmatrix}$.
