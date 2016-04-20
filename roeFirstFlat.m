@@ -24,8 +24,9 @@ Q(1,2*i) = -Q(2,2*i);
 Q(end,2*i-1) = Q(end-1,2*i-1);
 Q(end,2*i) = -Q(end-1,2*i);
 %Choose initial conditions for momentum
+Q(:,2) = -(Q(:,1)-H).*sqrt(g*(Q(:,1)));
 
-Q(:,2) = sqrt(4*g)*Q(:,1).^1.5;
+
 f = @(u) [ u(2) , u(2)^2./u(1) + 0.5*g*u(1).^2];
 %Ffun = @(u1,u2) 0.5*(f(u1)+f(u2)) - 0.5*(abs(lambda1)*W1 + abs(lambda2)*W2);
 

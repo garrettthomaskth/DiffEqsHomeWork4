@@ -1,16 +1,20 @@
-function [Q,x,t,cons] = roeFirstFlat(xSteps, tSteps)
+function [Q,x,t,cons] = roeNotFlat(xSteps, tSteps)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
 %Chosen Variable
 L=10; %L long
 T=10;
+
+
 %Given Variables
 H=1;
 w=0.1*L;
 alpha=H/5;
 g=9.8;
 
+r=L/6;
+B0 = H/10;
 
 dx=L/xSteps;
 dt=T/tSteps;
@@ -24,12 +28,14 @@ Q(1,2*i) = -Q(2,2*i);
 Q(end,2*i-1) = Q(end-1,2*i-1);
 Q(end,2*i) = -Q(end-1,2*i);
 %Choose initial conditions for momentum
-Q(:,2) = sqrt(4/3*g*Q(:,1).^3);
+%Q(:,2) = -(Q(:,1)-H).*sqrt(g*(Q(:,1)));
+
 
 f = @(u) [ u(2) , u(2)^2./u(1) + 0.5*g*u(1).^2];
 %Ffun = @(u1,u2) 0.5*(f(u1)+f(u2)) - 0.5*(abs(lambda1)*W1 + abs(lambda2)*W2);
 
 F = zeros(xSteps+1,2);
+S = zeros(xSteps+1,2);
 for i = 1:tSteps+1
     % Ghost point values
     Q(1,2*i-1) = Q(2,2*i-1);
@@ -50,10 +56,14 @@ for i = 1:tSteps+1
         lambda2 = uHat + cHat;
         
         F(j,:) = 0.5*(f(Q(j+1,(2*i-1):(2*i)))+f(Q(j,(2*i-1):(2*i)))) - 0.5*(abs(lambda1)*W1 + abs(lambda2)*W2);
-        %Ffun( Q(j+1,(2*i-1):(2*i)), Q(j,(2*i-1):(2*i)) );
+        
+        x = j*dx;
+        if abs(x - L/2) < r            
+            S(j,2) = -pi*B0*sin(pi*(x-L/2)/r);
+        end
     end
     for j = 2:xSteps+1
-        Q(j,2*i+1:2*i+2) = Q(j,2*i-1:2*i) - dt/dx * (F(j,:)-F(j-1,:));
+        Q(j,2*i+1:2*i+2) = Q(j,2*i-1:2*i) - dt/dx * (F(j,:)-F(j-1,:))+ dt*S(j,:);
     end
 end
 x = linspace(0,L,xSteps);
