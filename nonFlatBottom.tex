@@ -1,0 +1,19 @@
+\section{Steady Solutions with Non-Horizontal Bottom}
+We now implement the roe solver to approximate the solution of a problem which has a non-horizontal bottom. Having a non-horizontal bottom now introduces a source term, so we must edit our scheme. Our new conservative first order scheme is 
+$$Q_i^{n+1} = Q_i^n - \frac{\Delta t}{\Delta x}(F^n_{i+1/2}-F^n_{i-1/2})+\Delta t S(Q^n)$$ 
+where 
+$$S(Q^n)= \begin{pmatrix}
+0 \\ -gh^n B_x(x)
+\end{pmatrix}$$
+From the problem, we have that
+\[ B(x) = \begin{cases} 
+      B_0 \cos^2(\frac{\pi(x-L/2)}{2r}) & \abs{x-L/2} < r \\
+      0 & \abs{x-L/2} \geq r \\
+   \end{cases}
+\]
+from which we are able to get 
+\[ B'(x) = \begin{cases} 
+      -\pi B_0 \sin(\frac{\pi(x-L/2)}{r}) & \abs{x-L/2} < r \\
+      0 & \abs{x-L/2} \geq r \\
+   \end{cases}
+\]
