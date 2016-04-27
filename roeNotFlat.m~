@@ -35,7 +35,7 @@ end
 % Q(end,2*i-1) = Q(end-1,2*i-1);
 % Q(end,2*i) = -Q(end-1,2*i);
 %Choose initial conditions for momentum
-%Q(:,2) = -(Q(:,1)-H).*sqrt(g*(Q(:,1)));
+Q(:,2) = -(Q(:,1)-H).*sqrt(g*(Q(:,1)))+0.5;
 
 
 f = @(u) [ u(2) , u(2)^2./u(1) + 0.5*g*u(1).^2];
@@ -45,11 +45,12 @@ F = zeros(xSteps+1,2);
 S = zeros(xSteps+2,2);
 for i = 1:tSteps+1
     % Ghost point values
-%     Q(1,2*i-1) = 0.8;
-%     Q(1,2*i) = 0.88;
-%     Q(end,2*i-1:2*i) = 2*Q(end-1,2*i-1:2*i) - Q(end-2,2*i-1:2*i);
-    Q(1,2*i-1:2*i) = 2*Q(end-1,2*i-1:2*i) - Q(end-2,2*i-1:2*i);
-    Q(end,2*i-1) = 2*Q(end-1,2*i-1:2*i) - Q(end-2,2*i-1:2*i);
+    Q(1,2*i-1) = 0.8;
+    Q(1,2*i) = 1.;
+    Q(end,2*i-1:2*i) = Q(end-1,2*i-1:2*i);
+%     Q(1,2*i-1:2*i) = 2*Q(end-1,2*i-1:2*i) - Q(end-2,2*i-1:2*i);
+%     Q(end,2*i-1) = 0.8;
+%     Q(end,2*i) = 0.88;
     
     for j = 1:xSteps+1
         cHat = sqrt(0.5*g*(Q(j,2*i-1)+Q(j+1,2*i-1)));

@@ -1,16 +1,17 @@
-function [Q,x,t,cons] = roeNotFlat(xSteps, tSteps)
+function [Q,x,t,cons] = roeNotFlatHarten(xSteps, tSteps)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
 %Chosen Variable
 L=10; %L long
 T=15;
-
+%For entropy fix
+d = 0.001;
 
 %Given Variables
 H=1;
-w=0.1*L;
-alpha=H/5;
+%w=0.1*L;
+%alpha=H/5;
 g=9.8;
 
 r=L/6;
@@ -35,21 +36,20 @@ end
 % Q(end,2*i-1) = Q(end-1,2*i-1);
 % Q(end,2*i) = -Q(end-1,2*i);
 %Choose initial conditions for momentum
-Q(:,2) = -(Q(:,1)-H).*sqrt(g*(Q(:,1)))+0.5;
+%Q(:,2) = -(Q(:,1)-H).*sqrt(g*(Q(:,1)));
 
 
 f = @(u) [ u(2) , u(2)^2./u(1) + 0.5*g*u(1).^2];
+ 
 %Ffun = @(u1,u2) 0.5*(f(u1)+f(u2)) - 0.5*(abs(lambda1)*W1 + abs(lambda2)*W2);
 
-figure(1)
-plot(0:dx:L+dx,Q(:,1),0:dx:L+dx,Q(:,2))
 F = zeros(xSteps+1,2);
 S = zeros(xSteps+2,2);
 for i = 1:tSteps+1
     % Ghost point values
     Q(1,2*i-1) = 0.8;
-    Q(1,2*i) = 1.3;
-    Q(end,2*i-1:2*i) = Q(end-1,2*i-1:2*i);
+    Q(1,2*i) = 0.0;
+    Q(end,2*i-1:2*i) = 2*Q(end-1,2*i-1:2*i) - Q(end-2,2*i-1:2*i);
 %     Q(1,2*i-1:2*i) = 2*Q(end-1,2*i-1:2*i) - Q(end-2,2*i-1:2*i);
 %     Q(end,2*i-1) = 0.8;
 %     Q(end,2*i) = 0.88;
@@ -62,11 +62,14 @@ for i = 1:tSteps+1
         
         W1 = ((uHat+cHat)*delta(1)-delta(2))/(2*cHat) * [1, uHat - cHat];
         W2 = (-(uHat-cHat)*delta(1)+delta(2))/(2*cHat) * [1, uHat + cHat];
-        
+                
         lambda1 = uHat - cHat;
         lambda2 = uHat + cHat;
-        
-        F(j,:) = 0.5*(f(Q(j+1,(2*i-1):(2*i)))+f(Q(j,(2*i-1):(2*i)))) - 0.5*(abs(lambda1)*W1 + abs(lambda2)*W2);
+
+        % Phi Delta function for the lambdas 
+        phiLambda1 = phiDelta(lambda1, d);
+        phiLambda2 = phiDelta(lambda2, d);
+        F(j,:) = 0.5*(f(Q(j+1,(2*i-1):(2*i)))+f(Q(j,(2*i-1):(2*i)))) - 0.5*(abs(phiLambda1)*W1 + abs(phiLambda2)*W2);
         
         x = (j-1.5)*dx;
         
@@ -87,7 +90,6 @@ end
 x = linspace(0,L,xSteps);
 t = linspace(0,T,tSteps+1);
 Q = Q(2:end-1,2*(1:tSteps+1)-1);
-figure(2)
 mesh(t,x,Q)
 rotate3d on
 cons = sum(Q(:,:))/(xSteps+1);

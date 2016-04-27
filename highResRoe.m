@@ -1,4 +1,4 @@
-function [Q,x,t,cons] = roeFirstFlat(xSteps, tSteps)
+function [Q,x,t,cons] = highResRoe(xSteps, tSteps)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -24,7 +24,7 @@ Q(1,2*i) = -Q(2,2*i);
 Q(end,2*i-1) = Q(end-1,2*i-1);
 Q(end,2*i) = -Q(end-1,2*i);
 %Choose initial conditions for momentum
-Q(:,2) = -(Q(:,1)-H).*sqrt(g*(Q(:,1)))+0.5;
+Q(:,2) = -(Q(:,1)-H).*sqrt(g*(Q(:,1)));
 %-(Q(:,1)-H).*sqrt(g*(Q(:,1)))
 
 
@@ -32,6 +32,9 @@ f = @(u) [ u(2) , u(2)^2./u(1) + 0.5*g*u(1).^2];
 %Ffun = @(u1,u2) 0.5*(f(u1)+f(u2)) - 0.5*(abs(lambda1)*W1 + abs(lambda2)*W2);
 
 F = zeros(xSteps+1,2);
+Ftil = zeros(xSteps+1,2);
+W = zeros(xSteps+1,4);
+Lambda = zeros(xSteps+1,2);
 for i = 1:tSteps+1
     % Ghost point values
     Q(1,2*i-1) = Q(2,2*i-1);
@@ -52,10 +55,24 @@ for i = 1:tSteps+1
         lambda2 = uHat + cHat;
         
         F(j,:) = 0.5*(f(Q(j+1,(2*i-1):(2*i)))+f(Q(j,(2*i-1):(2*i)))) - 0.5*(abs(lambda1)*W1 + abs(lambda2)*W2);
-        %Ffun( Q(j+1,(2*i-1):(2*i)), Q(j,(2*i-1):(2*i)) );
+        
+        Lambda(i,1) = lambda1;
+        Lambda(i,2) = lambda2;
+        
+        W(i,1:2) = W1;
+        W(i,3:4) = W2;
+    end
+    for j = 1:xSteps+1 
+       if j==1 || j==xSteps+1 
+           fir = 0.5*(abs(lambda1)*(1-dt/dx)*abs(lambda1))*W(j,1:2);
+           sec = 0.5*(abs(lambda2)*(1-dt/dx)*abs(lambda2))*W(j,3:4);
+           Ftil(j,:) = fir + sec;
+       else
+           Ftil(j,:) = Ftilda( Lambda, W, j);
+       end  
     end
     for j = 2:xSteps+1
-        Q(j,2*i+1:2*i+2) = Q(j,2*i-1:2*i) - dt/dx * (F(j,:)-F(j-1,:));
+        Q(j,2*i+1:2*i+2) = Q(j,2*i-1:2*i) - dt/dx * (F(j,:)-F(j-1,:)+(Ftil(j,:)-Ftil(j-1,:)));
     end
 end
 x = linspace(0,L,xSteps);
