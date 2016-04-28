@@ -4,7 +4,7 @@ function [Q,x,t,cons] = roeFirstFlat(xSteps, tSteps)
 
 %Chosen Variable
 L=10; %L long
-T=10;
+T=20;
 %Given Variables
 H=1;
 w=0.1*L;
@@ -24,7 +24,7 @@ Q(1,2*i) = -Q(2,2*i);
 Q(end,2*i-1) = Q(end-1,2*i-1);
 Q(end,2*i) = -Q(end-1,2*i);
 %Choose initial conditions for momentum
-Q(:,2) = -(Q(:,1)-H).*sqrt(g*(Q(:,1)))+0.5;
+Q(:,2) = -(Q(:,1)-H).*sqrt(g*(Q(:,1)))-0.01;
 %-(Q(:,1)-H).*sqrt(g*(Q(:,1)))
 
 

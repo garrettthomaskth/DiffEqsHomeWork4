@@ -4,7 +4,7 @@ function [Q,x,t,cons] = highResRoe(xSteps, tSteps)
 
 %Chosen Variable
 L=10; %L long
-T=10;
+T=20;
 %Given Variables
 H=1;
 w=0.1*L;
@@ -72,12 +72,13 @@ for i = 1:tSteps+1
        end  
     end
     for j = 2:xSteps+1
-        Q(j,2*i+1:2*i+2) = Q(j,2*i-1:2*i) - dt/dx * (F(j,:)-F(j-1,:)+(Ftil(j,:)-Ftil(j-1,:)));
+        Q(j,2*i+1:2*i+2) = Q(j,2*i-1:2*i) - dt/dx * (F(j,:)-F(j-1,:)+dt/dx *(Ftil(j,:)-Ftil(j-1,:)));
     end
 end
 x = linspace(0,L,xSteps);
 t = linspace(0,T,tSteps+1);
 Q = Q(2:end-1,2*(1:tSteps+1)-1);
+figure(2)
 mesh(t,x,Q)
 rotate3d on
 cons = sum(Q(:,:))/(xSteps+1);

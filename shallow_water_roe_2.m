@@ -3,7 +3,7 @@ function [  ] = shallow_water_roe_2(  )
 
 C=0.2; % Stability parameter
 N=100; % Number of space cells
-s=200; % Number of time steps
+s=600; % Number of time steps
 h=zeros(N,s);
 m=zeros(N,s);
 g=9.61;
@@ -115,6 +115,7 @@ for k=1:s
     %ylim([1,1.09])
     
     
+
     pause;
 end
 
