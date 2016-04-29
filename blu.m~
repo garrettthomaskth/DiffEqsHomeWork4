@@ -1,0 +1,7 @@
+[Q,x,t,cons] = roeFirstFlat(200,600);
+t = 2*[0 10 20 30 45 60 75 90 100];
+for i=1:9
+subplot(3,3,i);
+plot(x,Q(:,t(i)+1));str = sprintf('T = %f',2.5/200*t(i));title(str);%axis([0 10 1 1.2]);
+xlabel('x');ylabel('Height   h');
+end

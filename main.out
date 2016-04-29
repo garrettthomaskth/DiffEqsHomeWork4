@@ -4,4 +4,7 @@
 \BOOKMARK [1][-]{section.2}{First Order Roe Scheme with Flat Bottom}{}% 4
 \BOOKMARK [2][-]{subsection.2.1}{Scheme}{section.2}% 5
 \BOOKMARK [2][-]{subsection.2.2}{Single pulse}{section.2}% 6
-\BOOKMARK [1][-]{section.3}{Steady Solutions with Non-Horizontal Bottom}{}% 7
+\BOOKMARK [2][-]{subsection.2.3}{Results with the Roe solver}{section.2}% 7
+\BOOKMARK [2][-]{subsection.2.4}{Comparison with Lax-Friedrichs}{section.2}% 8
+\BOOKMARK [2][-]{subsection.2.5}{Higher pulse}{section.2}% 9
+\BOOKMARK [1][-]{section.3}{Steady Solutions with Non-Horizontal Bottom}{}% 10

@@ -4,11 +4,11 @@ function [Q,x,t,cons] = roeFirstFlat(xSteps, tSteps)
 
 %Chosen Variable
 L=10; %L long
-T=10;
+T=2.5;
 %Given Variables
 H=1;
 w=0.1*L;
-alpha=H/5;
+alpha=2*H;
 g=9.8;
 
 
