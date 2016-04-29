@@ -2,5 +2,6 @@
 \BOOKMARK [2][-]{subsection.1.1}{Still Water Implies Horizontal Water Level}{section.1}% 2
 \BOOKMARK [2][-]{subsection.1.2}{Conservation Form}{section.1}% 3
 \BOOKMARK [1][-]{section.2}{First Order Roe Scheme with Flat Bottom}{}% 4
-\BOOKMARK [2][-]{subsection.2.1}{Algorithm}{section.2}% 5
-\BOOKMARK [1][-]{section.3}{Steady Solutions with Non-Horizontal Bottom}{}% 6
+\BOOKMARK [2][-]{subsection.2.1}{Scheme}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.2}{Single pulse}{section.2}% 6
+\BOOKMARK [1][-]{section.3}{Steady Solutions with Non-Horizontal Bottom}{}% 7

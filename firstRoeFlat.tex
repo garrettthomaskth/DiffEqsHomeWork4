@@ -1,6 +1,6 @@
 \section{First Order Roe Scheme with Flat Bottom}
-\subsection{Algorithm}
-We first implement the first order Roe scheme to simulate the shallow water equations for a flat bottom. The algorithm is works as follows. We have our equation set up as a conservation law i.e.,
+\subsection{Scheme}
+We first implement the first order Roe scheme to simulate the shallow water equations for a flat bottom. The algorithm works as follows. We have our equation set up as a conservation law i.e.,
 $$q_t+f(q)_x=0$$
 so we need a method in conservation form, i.e.
 $$Q_i^{n+1} = Q_i^n - \frac{\Delta t}{\Delta x}(F^n_{i+1/2}-F^n_{i-1/2})$$ 
@@ -17,3 +17,24 @@ and letting $\delta = Q_i - Q_{i-1}$ we get $W^1_{i-1/2}=\frac{(\hat{u}+\hat{c})
 \end{pmatrix}$ and $W^2_{i-1/2}=\frac{-(\hat{u}-\hat{c})\delta^1 + \delta^2}{2\hat{c}}\begin{pmatrix}
 1\\ \hat{u} + \hat{c}
 \end{pmatrix}$.
+
+\subsection{Single pulse}
+We are now going to use this scheme a produce a single pulse, with "wall" boundary condition. We were given the following initial condition for the height :
+$$h(x,0) = H + ae^{-(x-L/2)^2/w^2}$$
+
+With $H =1$, $w=0.1L$ and $a=H/5$. The goal is now to find $m(x,0)$ so that we only have one wave traveling. To find this initial condition, let us diagonalize the PDE using the chain rule. Because we have a flat bottom ($B_x=0$), the chain rule gives :
+$$q_t+(f(q))_x = q_t + f'(q)q_x = \left(\begin{array}{c}
+q_1 \\ 
+q_2
+\end{array}\right)_t + 
+\left(\begin{array}{cc}
+0 & 1 \\ 
+-\frac{q_2^2}{q_1^2}+gq_1 & 2 \frac{q_2}{q_1}
+\end{array}\right)\left(\begin{array}{c}
+q_1 \\ 
+q_2
+\end{array}\right)_x = \left(\begin{array}{c}
+0 \\ 
+0
+\end{array}\right)  $$ 
+
